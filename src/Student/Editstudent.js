@@ -27,7 +27,6 @@ class Edit extends React.Component {
             Email: ''
         }
     }
-
     componentDidMount() {
         axios.get('http://localhost:44398/Api/Student/StudentdetailByrowId?id=' + this.props.match.params.id)
             .then(response => {
