@@ -17,17 +17,36 @@ this.state = {
 }   
 }
 Addstudent=()=>{  
-  axios.post('https://localhost:44398/Api/Student/AddorUpdatestudent/', 
-  {
-   StudentName:this.state.StudentName,
-   Grade:this.state.Grade,  
-   Address:this.state.Address,
-   City:this.state.City,
-   Country:this.state.Country,
-   Postal:this.state.Postal,  
-   Phone:this.state.Phone,
-   Email:this.state.Email
-})  
+  const Student = {
+    StudentName:this.state.StudentName,
+    Grade:this.state.Grade,  
+    Address:this.state.Address,
+    City:this.state.City,
+    Country:this.state.Country,
+    Postal:this.state.Postal,  
+    Phone:this.state.Phone,
+    Email:this.state.Email
+  };
+  var bodyFormData = new FormData();
+  bodyFormData.append('StudentName', this.state.StudentName);
+  bodyFormData.append('Grade', this.state.Grade);
+  bodyFormData.append('Address', this.state.Address);
+  bodyFormData.append('City', this.state.City);
+  bodyFormData.append('Country', this.state.Country);
+  bodyFormData.append('Postal', this.state.Postal);
+  bodyFormData.append('Phone', this.state.Phone);
+  bodyFormData.append('Email', this.state.Email);
+
+ // axios.post('https://localhost:44398/Api/Student/AddorUpdatestudent/', bodyFormData)  
+  axios({
+    method: "post",
+    url: "https://localhost:44398/Api/Student/AddorUpdatestudent/",
+    data: JSON.stringify(bodyFormData),
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+  })
 .then(json => {  
 if(json.data.Status==='Success'){  
   console.log(json.data.Status);  

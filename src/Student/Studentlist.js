@@ -30,8 +30,8 @@ export default class Studentlist extends Component {
       });  
     }  
     //{ this.tabRow() }  
-    DeleteStudent= () =>{  
-        axios.delete('https://localhost:44398/Api/Student/Delete?id='+this.props.obj.rowId)  
+    DeleteStudent= (rowId) =>{  
+        axios.delete('https://localhost:44398/Api/Student/Delete?id='+rowId)  
        .then(json => {  
        if(json.data.Status==='Delete'){  
        alert('Record deleted successfully!!');  
@@ -56,7 +56,7 @@ export default class Studentlist extends Component {
                         <Link to={"/edit/"+element.rowId} className="btn btn-success">Edit</Link>
                         </td>
                         <td>
-                            <button type="button" onClick={this.DeleteStudent} className="btn btn-danger">Delete</button>
+                            <button type="button" onClick={this.DeleteStudent(element.rowId)} className="btn btn-danger">Delete</button>
                         </td>
                     </tr>
 
