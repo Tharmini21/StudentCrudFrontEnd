@@ -6,6 +6,12 @@ class Addstudent extends React.Component{
 constructor(props){  
 super(props)  
 this.state = {  
+    formErrors: {Email: '', StudentName: '',Phone:'',Grade:''},
+    emailValid: false,
+    studentNameValid: false,
+    phoneValid: false,
+    gradeValid: false,
+    formValid: false,
     StudentName:'',  
     Grade:'',  
     Address:'',  
@@ -15,6 +21,38 @@ this.state = {
     Phone:'',  
     Email:''    
 }   
+}
+validateField(fieldName, value) {
+  let fieldValidationErrors = this.state.formErrors;
+  let emailValid = this.state.emailValid;
+  let phoneValid = this.state.phoneValid;
+  let gradeValid = this.state.gradeValid;
+
+  switch(fieldName) {
+    case 'Email':
+      emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+      fieldValidationErrors.Email = emailValid ? '' : ' is invalid';
+      break;
+    case 'Phone':
+      phoneValid = value.length == 10;
+      fieldValidationErrors.Phone = phoneValid ? '': ' is too short';
+      break;
+    case 'Grade':
+        gradeValid = value.length == 1;
+        fieldValidationErrors.Grade = gradeValid ? '': ' is too big';
+        break;
+    default:
+      break;
+  }
+  this.setState({formErrors: fieldValidationErrors,
+                  emailValid: emailValid,
+                  phoneValid: phoneValid,
+                  gradeValid: gradeValid
+                }, this.validateForm);
+}
+
+validateForm() {
+  this.setState({formValid: this.state.emailValid && this.state.passwordValid});
 }
 Addstudent=()=>{  
   const Student = {
@@ -36,27 +74,41 @@ Addstudent=()=>{
   bodyFormData.append('Postal', this.state.Postal);
   bodyFormData.append('Phone', this.state.Phone);
   bodyFormData.append('Email', this.state.Email);
-
- // axios.post('https://localhost:44398/Api/Student/AddorUpdatestudent/', bodyFormData)  
-  axios({
-    method: "post",
-    url: "https://localhost:44398/Api/Student/AddorUpdatestudent/",
-    data: JSON.stringify(bodyFormData),
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
-  })
+  var body = {
+    StudentName:this.state.StudentName,
+    Grade:this.state.Grade,  
+    Address:this.state.Address,
+    City:this.state.City,
+    Country:this.state.Country,
+    Postal:this.state.Postal,  
+    Phone:this.state.Phone,
+    Email:this.state.Email
+}
+  axios.post('https://localhost:44398/Api/Student/AddorUpdatestudent', {
+    StudentName:this.state.StudentName,
+    Grade:this.state.Grade,  
+    Address:this.state.Address,
+    City:this.state.City,
+    Country:this.state.Country,
+    Postal:this.state.Postal,  
+    Phone:this.state.Phone,
+    Email:this.state.Email
+})  
+  // axios({
+  //   url: "https://localhost:44398/Api/Student/AddorUpdatestudent/",
+  //   method: "post",
+  //   contentType: "application/json",
+  //   data: JSON.stringify(body)
+  // })
 .then(json => {  
 if(json.data.Status==='Success'){  
   console.log(json.data.Status);  
   alert("Data Save Successfully");  
-this.props.history.push('/Studentlist')  
+//this.props.history.push('/Studentlist')  
 }  
 else{  
 alert('Data not Saved');  
-debugger;  
-this.props.history.push('/Studentlist')  
+//this.props.history.push('/Studentlist')  
 }  
 })  
 }  
@@ -67,26 +119,27 @@ this.setState({[e.target.name]:e.target.value});
    
 render() {  
 return (  
+  
    <Container className="App">  
     <h4 className="PageHeading">Enter Student Informations</h4>  
     <Form className="form">  
       <Col>  
         <FormGroup row>  
-          <Label for="name" sm={2}>Student Name</Label>  
+          <Label for="name" sm={2}>Student Name *</Label>  
           <Col sm={10}>  
-            <Input type="text" name="StudentName" onChange={this.handleChange} value={this.state.StudentName} placeholder="Enter Name" />  
+            <Input type="text" name="StudentName" required onChange={this.handleChange} value={this.state.StudentName} placeholder="Enter Name" />  
           </Col>  
         </FormGroup>  
         <FormGroup row>  
-          <Label for="grade" sm={2}>Grade</Label>  
+          <Label for="grade" sm={2}>Grade *</Label>  
           <Col sm={10}>  
-            <Input type="text" name="Grade" onChange={this.handleChange} value={this.state.Grade} placeholder="Enter Grade 1 to 12" />  
+            <Input type="number" name="Grade" required onChange={this.handleChange} value={this.state.Grade} placeholder="Enter Grade 1 to 12" />  
           </Col>  
         </FormGroup>  
         <FormGroup row>  
           <Label for="Password" sm={2}>Address</Label>  
           <Col sm={10}>  
-            <Input type="text" name="Address" onChange={this.handleChange} value={this.state.Address} placeholder="Enter Address" />  
+            <Input type="text" name="Address" required onChange={this.handleChange} value={this.state.Address} placeholder="Enter Address" />  
           </Col>  
         </FormGroup>  
         <FormGroup row>  
@@ -104,19 +157,19 @@ return (
         <FormGroup row>  
           <Label for="Password" sm={2}>Postal</Label>  
           <Col sm={10}>  
-            <Input type="text" name="Postal" onChange={this.handleChange} value={this.state.Postal} placeholder="Enter Postal" />  
+            <Input type="number" minLength={6} name="Postal" onChange={this.handleChange} value={this.state.Postal} placeholder="Enter Postal" />  
           </Col>  
         </FormGroup>  
         <FormGroup row>  
-          <Label for="Password" sm={2}>Phone</Label>  
+          <Label for="Password" sm={2}>Phone *</Label>  
           <Col sm={10}>  
-            <Input type="text" name="Phone" onChange={this.handleChange} value={this.state.Phone} placeholder="Enter Phone" />  
+            <Input type="number" minLength={10} name="Phone" required onChange={this.handleChange} value={this.state.Phone} placeholder="Enter Phone" />  
           </Col>  
         </FormGroup> 
         <FormGroup row>  
-          <Label for="Password" sm={2}>Email</Label>  
+          <Label for="Password" sm={2}>Email *</Label>  
           <Col sm={10}>  
-            <Input type="text" name="Email" onChange={this.handleChange} value={this.state.Email} placeholder="Enter Email" />  
+            <Input type="email" name="Email" required onChange={this.handleChange} value={this.state.Email} placeholder="Enter Email" />  
           </Col>  
         </FormGroup>  
       </Col>  

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-//import Table from './Table';  
+// import Table from './Table';  
 import Table from 'react-bootstrap/Table';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
@@ -56,7 +56,7 @@ export default class Studentlist extends Component {
                         <Link to={"/edit/"+element.rowId} className="btn btn-success">Edit</Link>
                         </td>
                         <td>
-                            <button type="button" onClick={this.DeleteStudent(element.rowId)} className="btn btn-danger">Delete</button>
+                            <button type="button" onClick={() => this.DeleteStudent(element.rowId)} className="btn btn-danger">Delete</button>
                         </td>
                     </tr>
 

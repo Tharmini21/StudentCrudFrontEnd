@@ -24,7 +24,7 @@ function App() {
       <Routes>
           <Route  path="/Studentlist" element={<Studentlist/>}/>
           <Route  path="/Addstudent" element={<Addstudent/>}/>
-          <Route path='/edit/:id' element={<Editstudent/>} />  
+          <Route exact path='/edit/:id' element={<Editstudent/>} />  
         </Routes>
     </Router> 
   );

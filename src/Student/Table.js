@@ -5,6 +5,14 @@ class Table extends Component {
   constructor(props) {  
     super(props);  
     }  
+    DeleteStudent= () =>{  
+      axios.delete('https://localhost:44398/Api/Student/Delete?id='+this.props.obj.Id)  
+     .then(json => {  
+     if(json.data.Status==='Delete'){  
+     alert('Record deleted successfully!!');  
+     }  
+     })  
+     } 
 
   render() {  
     return (  

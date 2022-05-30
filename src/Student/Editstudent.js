@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Col, Form, Row, FormGroup, Label, Input, Button } from 'reactstrap';
 import axios from 'axios'
 import '../Student/Addstudent.css'
+import { withRouter } from "react-router-dom";
 class Edit extends React.Component {
     constructor(props) {
         super(props)
@@ -27,8 +28,12 @@ class Edit extends React.Component {
             Email: ''
         }
     }
+   
     componentDidMount() {
-        axios.get('http://localhost:44398/Api/Student/StudentdetailByrowId?id=' + this.props.match.params.id)
+        const { location } = this.props;
+        const query = new URLSearchParams(location.search);
+        const id = query.get('id');
+        axios.get('http://localhost:44398/Api/Student/StudentdetailByrowId?id=' + this.props.computedMatch.params.id)
             .then(response => {
                 this.setState({
                     StudentName: response.data.StudentName,
@@ -103,8 +108,7 @@ class Edit extends React.Component {
         };
         axios.post('https://localhost:44398/Api/Student/AddorUpdatestudent/', obj)
             .then(res => console.log(res.data));
-        debugger;
-        this.props.history.push('/Studentlist')
+       
     }
     render() {
         return (
