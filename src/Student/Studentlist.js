@@ -16,8 +16,6 @@ export default class Studentlist extends Component {
         axios.get('https://localhost:44398/Api/Student/GetStudentDetails')
             .then(response => {
                 this.setState({ business: response.data });
-                debugger;
-
             })
             .catch(function (error) {
                 console.log(error);
@@ -31,10 +29,11 @@ export default class Studentlist extends Component {
     }  
     //{ this.tabRow() }  
     DeleteStudent= (rowId) =>{  
-        axios.delete('https://localhost:44398/Api/Student/Delete?id='+rowId)  
+        const url = `https://localhost:44398/Api/Student/Delete/${rowId}`;
+        axios.delete(url)  
        .then(json => {  
-       if(json.data.Status==='Delete'){  
-       alert('Record deleted successfully!!');  
+       if(json.data!=''){  
+       alert(json.data);  
        }  
        })  
        } 

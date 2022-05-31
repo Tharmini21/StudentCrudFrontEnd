@@ -23,12 +23,19 @@ this.state = {
 }   
 }
 validateField(fieldName, value) {
+  <div className={`form
+                 ${this.errorClass(this.state.formErrors.Email)}`}></div>
   let fieldValidationErrors = this.state.formErrors;
   let emailValid = this.state.emailValid;
   let phoneValid = this.state.phoneValid;
   let gradeValid = this.state.gradeValid;
+  let studentNameValid = this.state.studentNameValid;
 
   switch(fieldName) {
+    case 'StudentName':
+      studentNameValid = value != '';
+      fieldValidationErrors.StudentName = studentNameValid ? '': ' is not to be empty';
+      break;
     case 'Email':
       emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
       fieldValidationErrors.Email = emailValid ? '' : ' is invalid';
@@ -38,7 +45,7 @@ validateField(fieldName, value) {
       fieldValidationErrors.Phone = phoneValid ? '': ' is too short';
       break;
     case 'Grade':
-        gradeValid = value.length == 1;
+        gradeValid = value.length == 2;
         fieldValidationErrors.Grade = gradeValid ? '': ' is too big';
         break;
     default:
@@ -47,24 +54,19 @@ validateField(fieldName, value) {
   this.setState({formErrors: fieldValidationErrors,
                   emailValid: emailValid,
                   phoneValid: phoneValid,
-                  gradeValid: gradeValid
+                  gradeValid: gradeValid,
+                  studentNameValid: studentNameValid
                 }, this.validateForm);
 }
 
 validateForm() {
-  this.setState({formValid: this.state.emailValid && this.state.passwordValid});
+  this.setState({formValid: this.state.studentNameValid && this.state.emailValid && this.state.phoneValid && this.state.gradeValid});
+}
+errorClass(error) {
+  return(error.length === 0 ? '' : 'has-error');
 }
 Addstudent=()=>{  
-  const Student = {
-    StudentName:this.state.StudentName,
-    Grade:this.state.Grade,  
-    Address:this.state.Address,
-    City:this.state.City,
-    Country:this.state.Country,
-    Postal:this.state.Postal,  
-    Phone:this.state.Phone,
-    Email:this.state.Email
-  };
+ 
   var bodyFormData = new FormData();
   bodyFormData.append('StudentName', this.state.StudentName);
   bodyFormData.append('Grade', this.state.Grade);
@@ -101,9 +103,9 @@ Addstudent=()=>{
   //   data: JSON.stringify(body)
   // })
 .then(json => {  
-if(json.data.Status==='Success'){  
-  console.log(json.data.Status);  
-  alert("Data Save Successfully");  
+if(json.data){  
+  console.log(json.data);  
+  alert(json.data);  
 //this.props.history.push('/Studentlist')  
 }  
 else{  
@@ -114,7 +116,11 @@ alert('Data not Saved');
 }  
    
 handleChange= (e)=> {  
-this.setState({[e.target.name]:e.target.value});  
+  const name = e.target.name;
+  const value = e.target.value;
+  this.setState({[name]: value}, 
+                () => { this.validateField(name, value) });
+//this.setState({[e.target.name]:e.target.value});
 }  
    
 render() {  
@@ -176,9 +182,12 @@ return (
       <Col>  
         <FormGroup row>  
           <Col sm={9}>  
-          </Col>  
+          </Col> 
           <Col sm={1}>  
-          <button type="button" onClick={this.Addstudent} className="btn btn-success">Submit</button>  
+          <Label hidden={this.state.formValid}>(To enable this button fill required field)</Label>  
+          </Col> 
+          <Col sm={1}> 
+          <button type="button" onClick={this.Addstudent} disabled={!this.state.formValid} className="btn btn-success">Submit</button>  
           </Col>  
           <Col sm={1}>  
             <Button color="danger">Cancel</Button>{' '}  
@@ -189,6 +198,7 @@ return (
       </Col>  
     </Form>  
   </Container>  
+  
 );  
 }  
    

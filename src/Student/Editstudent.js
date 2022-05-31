@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Col, Form, Row, FormGroup, Label, Input, Button } from 'reactstrap';
 import axios from 'axios'
 import '../Student/Addstudent.css'
-import { withRouter } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 class Edit extends React.Component {
     constructor(props) {
         super(props)
@@ -18,6 +18,7 @@ class Edit extends React.Component {
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
+            RowId:'',
             StudentName: '',
             Grade: '',
             Address: '',
@@ -28,22 +29,24 @@ class Edit extends React.Component {
             Email: ''
         }
     }
-   
+
     componentDidMount() {
-        const { location } = this.props;
-        const query = new URLSearchParams(location.search);
-        const id = query.get('id');
-        axios.get('http://localhost:44398/Api/Student/StudentdetailByrowId?id=' + this.props.computedMatch.params.id)
+        //const { id } = useParams();
+        const windowUrl = window.location.href;
+        const answer_array=windowUrl.split('/');
+       // let rowid = params['id'];
+       let rowid =answer_array[4];
+        axios.get(`https://localhost:44398/Api/Student/StudentdetailByrowId/${rowid}`)
             .then(response => {
                 this.setState({
-                    StudentName: response.data.StudentName,
-                    Grade: response.data.Grade,
-                    City: response.data.City,
-                    Address: response.data.Address,
-                    Country: response.data.Country,
-                    Postal: response.data.Postal,
-                    Phone: response.data.Phone,
-                    Email: response.data.Email
+                    StudentName: response.data.cells[0].value,
+                    Grade: response.data.cells[1].value,
+                    City: response.data.cells[2].value,
+                    Address: response.data.cells[3].value,
+                    Country: response.data.cells[4].value,
+                    Postal: response.data.cells[5].value,
+                    Phone: response.data.cells[6].value,
+                    Email: response.data.cells[7].value
                 });
 
             })
@@ -95,8 +98,11 @@ class Edit extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
+        const windowUrl = window.location.href;
+        const answer_array=windowUrl.split('/');
+        let rowid =answer_array[4];
         const obj = {
-            RowId: this.props.match.params.id,
+            RowId: rowid,
             StudentName: this.state.StudentName,
             Grade: this.state.Grade,
             Address: this.state.Address,
@@ -108,7 +114,7 @@ class Edit extends React.Component {
         };
         axios.post('https://localhost:44398/Api/Student/AddorUpdatestudent/', obj)
             .then(res => console.log(res.data));
-       
+
     }
     render() {
         return (
