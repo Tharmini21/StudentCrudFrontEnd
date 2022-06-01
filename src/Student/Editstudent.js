@@ -4,6 +4,18 @@ import axios from 'axios'
 import '../Student/Addstudent.css'
 import { useParams } from 'react-router-dom';
 class Edit extends React.Component {
+
+    state = {
+        RowId: '',
+        StudentName: '',
+        Grade: '',
+        Address: '',
+        City: '',
+        Country: '',
+        Postal: '',
+        Phone: '',
+        Email: ''
+    }
     constructor(props) {
         super(props)
 
@@ -17,25 +29,13 @@ class Edit extends React.Component {
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
-        this.state = {
-            RowId:'',
-            StudentName: '',
-            Grade: '',
-            Address: '',
-            City: '',
-            Country: '',
-            Postal: '',
-            Phone: '',
-            Email: ''
-        }
     }
 
     componentDidMount() {
         //const { id } = useParams();
         const windowUrl = window.location.href;
-        const answer_array=windowUrl.split('/');
-       // let rowid = params['id'];
-       let rowid =answer_array[4];
+        const answer_array = windowUrl.split('/');
+        let rowid = answer_array[4];
         axios.get(`https://localhost:44398/Api/Student/StudentdetailByrowId/${rowid}`)
             .then(response => {
                 this.setState({
@@ -46,7 +46,8 @@ class Edit extends React.Component {
                     Country: response.data.cells[4].value,
                     Postal: response.data.cells[5].value,
                     Phone: response.data.cells[6].value,
-                    Email: response.data.cells[7].value
+                    Email: response.data.cells[7].value,
+                    RowId: response.data.rowid
                 });
 
             })
@@ -98,22 +99,33 @@ class Edit extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
+        let student="15";
+        console.log(this.state);
         const windowUrl = window.location.href;
-        const answer_array=windowUrl.split('/');
-        let rowid =answer_array[4];
-        const obj = {
-            RowId: rowid,
-            StudentName: this.state.StudentName,
-            Grade: this.state.Grade,
-            Address: this.state.Address,
-            City: this.state.City,
-            Country: this.state.Country,
-            Postal: this.state.Postal,
-            Phone: this.state.Phone,
-            Email: this.state.Email
-        };
-        axios.post('https://localhost:44398/Api/Student/AddorUpdatestudent/', obj)
-            .then(res => console.log(res.data));
+        const answer_array = windowUrl.split('/');
+        let rowid = answer_array[4];
+        this.state.RowId = rowid;
+        const st = {
+            RowId:rowid,
+            StudentName:this.state.StudentName,
+            Grade:this.state.Grade,  
+            Address:this.state.Address,
+            City:this.state.City,
+            Country:this.state.Country,
+            Postal:this.state.Postal,  
+            Phone:this.state.Phone,
+            Email:this.state.Email
+        }
+        // axios.post('https://localhost:44398/Api/Student/AddorUpdatestudent/', this.state)
+        //     .then(res => console.log(res.data));
+            axios.put('https://localhost:44398/api/Student/AddorUpdatestudent', this.state,
+            {headers: { 'Content-Type': 'application/json' }})
+.then(response => { 
+	console.log(response.data)
+})
+.catch(error => {
+    console.log(error.response)
+});
 
     }
     render() {
