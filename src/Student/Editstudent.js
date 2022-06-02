@@ -3,9 +3,11 @@ import { Container, Col, Form, Row, FormGroup, Label, Input, Button } from 'reac
 import axios from 'axios'
 import '../Student/Addstudent.css'
 import { useParams } from 'react-router-dom';
+import Spinner from 'react-bootstrap/Spinner'
 class Edit extends React.Component {
 
     state = {
+        isLoaded: false,
         RowId: '',
         StudentName: '',
         Grade: '',
@@ -38,7 +40,7 @@ class Edit extends React.Component {
         let rowid = answer_array[4];
         axios.get(`https://localhost:44398/Api/Student/StudentdetailByrowId/${rowid}`)
             .then(response => {
-                this.setState({
+                this.setState({isLoaded: true,
                     StudentName: response.data.cells[0].value,
                     Grade: response.data.cells[1].value,
                     City: response.data.cells[2].value,
@@ -99,13 +101,12 @@ class Edit extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
-        let student="15";
         console.log(this.state);
         const windowUrl = window.location.href;
         const answer_array = windowUrl.split('/');
         let rowid = answer_array[4];
         this.state.RowId = rowid;
-        const st = {
+        const student = {
             RowId:rowid,
             StudentName:this.state.StudentName,
             Grade:this.state.Grade,  
@@ -116,19 +117,55 @@ class Edit extends React.Component {
             Phone:this.state.Phone,
             Email:this.state.Email
         }
+         axios.post('https://localhost:44398/Api/Student/Updatestudent', {
+            RowId:rowid,
+            StudentName:this.state.StudentName,
+            Grade:this.state.Grade,  
+            Address:this.state.Address,
+            City:this.state.City,
+            Country:this.state.Country,
+            Postal:this.state.Postal,  
+            Phone:this.state.Phone,
+            Email:this.state.Email
+        })
+            .then(res => console.log(res.data));
+        // const requestOptions = {
+        //     method: 'PUT',
+        //     headers: { 
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body: student
+        // };
+        // fetch('https://localhost:44398/Api/Student/AddorUpdatestudent/', requestOptions)
+        //     .then(response => {
+        //         response.json()
+        //         console.log(response.data)
+        //     })
+        //     .catch(error => {
+        //         console.log('There was an error!', error);
+        //     });
         // axios.post('https://localhost:44398/Api/Student/AddorUpdatestudent/', this.state)
         //     .then(res => console.log(res.data));
-            axios.put('https://localhost:44398/api/Student/AddorUpdatestudent', this.state,
-            {headers: { 'Content-Type': 'application/json' }})
-.then(response => { 
-	console.log(response.data)
-})
-.catch(error => {
-    console.log(error.response)
-});
+//             axios.put(`https://localhost:44398/Api/Student/AddorUpdatestudent/${rowid}`, student)
+//             //{headers: { 'Content-Type': 'application/json' }})
+// .then(response => { 
+// 	console.log(response.data)
+// })
+// .catch(error => {
+//     console.log(error.response)
+// });
 
     }
     render() {
+        const { isLoaded, business } = this.state;
+        if (!isLoaded) {
+            return <div>
+            <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+            Loading...
+            </div>;
+        } else {
         return (
             <Container className="App">
 
@@ -203,6 +240,7 @@ class Edit extends React.Component {
             </Container>
         );
     }
+}
 
 }
 

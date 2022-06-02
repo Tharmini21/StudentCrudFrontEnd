@@ -41,11 +41,11 @@ validateField(fieldName, value) {
       fieldValidationErrors.Email = emailValid ? '' : ' is invalid';
       break;
     case 'Phone':
-      phoneValid = value.length == 10;
+      phoneValid = value.length == 15  ;
       fieldValidationErrors.Phone = phoneValid ? '': ' is too short';
       break;
     case 'Grade':
-        gradeValid = value.length == 2;
+        gradeValid = value.length <= 2;
         fieldValidationErrors.Grade = gradeValid ? '': ' is too big';
         break;
     default:
@@ -86,7 +86,7 @@ Addstudent=()=>{
     Phone:this.state.Phone,
     Email:this.state.Email
 }
-  axios.post('https://localhost:44398/Api/Student/AddorUpdatestudent', {
+  axios.post('https://localhost:44398/Api/Student/Addstudent', {
     StudentName:this.state.StudentName,
     Grade:this.state.Grade,  
     Address:this.state.Address,
