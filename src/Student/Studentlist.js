@@ -97,6 +97,10 @@ export default class Studentlist extends Component {
                         <tbody>
                             {this.tableRows()}
                         </tbody>
+                        <tfoot>
+
+                        </tfoot>
+                       
                     </table>
                 </div>
             );

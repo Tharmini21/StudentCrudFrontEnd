@@ -2,9 +2,16 @@ import React from 'react';
 import axios from 'axios';  
 import '../Student/Addstudent.css'  
 import { Container, Col, Form, Row, FormGroup, Label, Input, Button } from 'reactstrap';  
+import { withRouter } from "react-router";
+import ReactDOM from 'react-dom/client';
+import Studentlist from './Studentlist';
+
 class Addstudent extends React.Component{  
+  
 constructor(props){  
 super(props)  
+
+const { match, location, history } = this.props;
 this.state = {  
     formErrors: {Email: '', StudentName: '',Phone:'',Grade:''},
     emailValid: false,
@@ -41,7 +48,7 @@ validateField(fieldName, value) {
       fieldValidationErrors.Email = emailValid ? '' : ' is invalid';
       break;
     case 'Phone':
-      phoneValid = value.length == 15  ;
+      phoneValid = value.length <= 15  ;
       fieldValidationErrors.Phone = phoneValid ? '': ' is too short';
       break;
     case 'Grade':
@@ -106,7 +113,15 @@ Addstudent=()=>{
 if(json.data){  
   console.log(json.data);  
   alert(json.data);  
+  this.render('/Studentlist')
+  // Studentlist
 //this.props.history.push('/Studentlist')  
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(
+//   <React.StrictMode>
+//     < Studentlist/>
+//   </React.StrictMode>
+// );
 }  
 else{  
 alert('Data not Saved');  
@@ -163,13 +178,13 @@ return (
         <FormGroup row>  
           <Label for="Password" sm={2}>Postal</Label>  
           <Col sm={10}>  
-            <Input type="number" minLength={6} name="Postal" onChange={this.handleChange} value={this.state.Postal} placeholder="Enter Postal" />  
+            <Input type="text" minLength={10} name="Postal" onChange={this.handleChange} value={this.state.Postal} placeholder="Enter Postal" />  
           </Col>  
         </FormGroup>  
         <FormGroup row>  
           <Label for="Password" sm={2}>Phone *</Label>  
           <Col sm={10}>  
-            <Input type="number" minLength={10} name="Phone" required onChange={this.handleChange} value={this.state.Phone} placeholder="Enter Phone" />  
+            <Input type="text" minLength={15} name="Phone" required onChange={this.handleChange} value={this.state.Phone} placeholder="Enter Phone" />  
           </Col>  
         </FormGroup> 
         <FormGroup row>  

@@ -23,8 +23,8 @@ function App() {
         </nav> <br />     
       </div>  
       <Routes>
-          <Route  path="/Studentlist" element={<Studentlist/>}/>
-          <Route  path="/Addstudent" element={<Addstudent/>}/>
+          <Route exact path="/Studentlist" element={<Studentlist/>}/>
+          <Route exact path="/Addstudent" element={<Addstudent/>}/>
           <Route exact path='/edit/:id' element={<Editstudent/>} />  
         </Routes>
     </Router> 
