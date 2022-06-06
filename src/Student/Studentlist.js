@@ -11,13 +11,19 @@ export default class Studentlist extends Component {
         super(props);
         this.state = {
             isLoaded: false,
-            business: []
+            business: [],
+            limit: 20,
+            skip: 0,
+            page: 0
         };
 
     }
     componentDidMount() {
-        debugger;
-        axios.get('https://localhost:44398/Api/Student/GetStudentDetails')
+        this.fetchUsers();
+    }
+
+    fetchUsers(page) {
+        axios.get(`https://localhost:44398/Api/Student/GetStudentDetails?pageSize=${this.state.limit}&page=${page}`)
             .then(response => {
                 this.setState({ isLoaded: true, business: response.data });
             })
@@ -25,6 +31,35 @@ export default class Studentlist extends Component {
                 console.log(error);
             })
     }
+    nextPage(num) {
+        this.setState({
+            // skip: this.state.skip + this.state.limit,
+            page: num,
+        })
+        this.fetchUsers(num);
+    }
+    // previousPage() {
+    //     if (this.state.skip > 0) {
+    //         this.setState({
+    //             skip: this.state.skip - this.state.limit,
+    //         })
+    //     }
+    // }
+    previousPage() {
+        if (this.state.page > 0) {
+            this.setState({
+                page: this.state.page - 1,
+            },
+                this.fetchUsers(this.state.page))
+        }
+
+    }
+    setCount(numb) {
+        this.setState({
+            count: numb,
+        })
+    }
+
 
     tabRow() {
         return this.state.business.map(function (object, i) {
@@ -71,13 +106,13 @@ export default class Studentlist extends Component {
         const { isLoaded, business } = this.state;
         if (!isLoaded) {
             return <div>
-            <Spinner animation="border" role="status">
-                <span className="visually-hidden">Loading...</span>
-            </Spinner>
-            Loading...
+                <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </Spinner>
+                Loading...
             </div>;
         } else {
-            return (
+            return (<div>
                 <div>
                     <h4 align="center">Student List</h4>
                     <table className="table table-striped" style={{ marginTop: 10 }}>
@@ -98,11 +133,14 @@ export default class Studentlist extends Component {
                             {this.tableRows()}
                         </tbody>
                         <tfoot>
-
                         </tfoot>
-                       
                     </table>
                 </div>
+                <div>
+                    <button onClick={() => this.previousPage()}>Previous Page</button>
+                    <button onClick={() => this.nextPage(this.state.page + 1)}>Next Page</button>
+                </div>
+            </div>
             );
         }
     }
