@@ -2,16 +2,18 @@ import React from 'react';
 import axios from 'axios';  
 import '../Student/Addstudent.css'  
 import { Container, Col, Form, Row, FormGroup, Label, Input, Button } from 'reactstrap';  
-import { withRouter } from "react-router";
 import ReactDOM from 'react-dom/client';
 import Studentlist from './Studentlist';
-
+import { hashHistory as history } from "react-router";
+import { withRouter } from 'react-router-dom';
+//import { useHistory } from "react-router-dom";
 class Addstudent extends React.Component{  
   
 constructor(props){  
 super(props)  
-
-const { match, location, history } = this.props;
+this.props=props;
+//const { match, location, history } = this.props;
+// let history = useHistory();
 this.state = {  
     formErrors: {Email: '', StudentName: '',Phone:'',Grade:''},
     emailValid: false,
@@ -113,9 +115,10 @@ Addstudent=()=>{
 if(json.data){  
   console.log(json.data);  
   alert(json.data);  
-  this.render('/Studentlist')
-  // Studentlist
-//this.props.history.push('/Studentlist')  
+  //this.render('/Studentlist')
+//  history.push("/Studentlist");
+//export default withRouter(ComponentName)
+this.props.history.push('/Studentlist')  
 // const root = ReactDOM.createRoot(document.getElementById('root'));
 // root.render(
 //   <React.StrictMode>

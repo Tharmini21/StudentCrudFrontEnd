@@ -9,23 +9,34 @@ export default class Studentlist extends Component {
 
     constructor(props) {
         super(props);
+
         this.state = {
             isLoaded: false,
             business: [],
             limit: 20,
             skip: 0,
-            page: 0
-        };
+            page: 1,
+            TotalCount: 0,
 
+        };
     }
     componentDidMount() {
-        this.fetchUsers();
+        this.fetchUsers(this.state.page);
     }
 
     fetchUsers(page) {
         axios.get(`https://localhost:44398/Api/Student/GetStudentDetails?pageSize=${this.state.limit}&page=${page}`)
             .then(response => {
                 this.setState({ isLoaded: true, business: response.data });
+                this.setState({ TotalCount: response.data[0].totalRowCount });
+                if (response.data > 0) {
+
+                    // const totalPages = Math.ceil(this.state.TotalCount / this.state.limit);
+                    // this.setState({ totalPageCount: totalPages});
+                    // this.TotalCount=response.data[0].totalRowCount;
+                    //,totalPages: Math.ceil(this.state.TotalCount / this.state.limit)
+
+                }
             })
             .catch(function (error) {
                 console.log(error);
@@ -45,12 +56,14 @@ export default class Studentlist extends Component {
     //         })
     //     }
     // }
-    previousPage() {
-        if (this.state.page > 0) {
+    previousPage(num) {
+        if (this.state.page > 1) {
             this.setState({
-                page: this.state.page - 1,
+               // page: this.state.page - 1,
+               page: num,
             },
-                this.fetchUsers(this.state.page))
+                // this.fetchUsers(this.state.page))
+                this.fetchUsers(num))
         }
 
     }
@@ -73,6 +86,7 @@ export default class Studentlist extends Component {
             .then(json => {
                 if (json.data != '') {
                     alert(json.data);
+                    this.fetchUsers(this.state.page);
                 }
             })
     }
@@ -103,7 +117,7 @@ export default class Studentlist extends Component {
     }
 
     render() {
-        const { isLoaded, business } = this.state;
+        const { isLoaded, business, totalPages } = this.state;
         if (!isLoaded) {
             return <div>
                 <Spinner animation="border" role="status">
@@ -137,8 +151,8 @@ export default class Studentlist extends Component {
                     </table>
                 </div>
                 <div>
-                    <button onClick={() => this.previousPage()}>Previous Page</button>
-                    <button onClick={() => this.nextPage(this.state.page + 1)}>Next Page</button>
+                    <button onClick={() => this.previousPage(this.state.page - 1)} disabled={this.state.page === 1}>Previous Page</button>
+                    <button onClick={() => this.nextPage(this.state.page + 1)} disabled={this.state.page === Math.ceil(this.state.TotalCount / this.state.limit)}></button>
                 </div>
             </div>
             );

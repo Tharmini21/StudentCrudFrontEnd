@@ -5,6 +5,7 @@ import Studentlist from './Student/Studentlist';
 import Editstudent from './Student/Editstudent'; 
 import LoadingSpinner from "./LoadingSpinner";
 import { BrowserRouter as Router, Route, Link,Routes } from 'react-router-dom';
+
 function App() {
   return (
     <Router>  
@@ -23,6 +24,7 @@ function App() {
         </nav> <br />     
       </div>  
       <Routes>
+      {/* <Route path="/Studentlist" render={(routeProps) => <Studentlist {...routeProps}/>} /> */}
           <Route exact path="/Studentlist" element={<Studentlist/>}/>
           <Route exact path="/Addstudent" element={<Addstudent/>}/>
           <Route exact path='/edit/:id' element={<Editstudent/>} />  
