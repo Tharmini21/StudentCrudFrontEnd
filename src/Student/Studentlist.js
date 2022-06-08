@@ -126,7 +126,7 @@ export default class Studentlist extends Component {
                 Loading...
             </div>;
         } else {
-            return (<div>
+            return (<div id="list">
                 <div>
                     <h4 align="center">Student List</h4>
                     <table className="table table-striped" style={{ marginTop: 10 }}>
