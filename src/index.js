@@ -4,15 +4,11 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 // import { BrowserRouter, Route, Routes } from 'react-router-dom'; 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Redirect
-} from "react-router-dom";
-import Addstudent from './Student/Addstudent'; 
-import Studentlist from './Student/Studentlist'; 
+// import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
+import { Router } from 'react-router-dom';
+import history from './history';
+import Addstudent from './Student/Addstudent';
+import Studentlist from './Student/Studentlist';
 import Editstudent from './Student/Editstudent';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -20,5 +16,9 @@ root.render(
     <App />
   </React.StrictMode>
 );
-
+// ReactDOM.render(
+//   <Router history={history}>
+//     <App />
+//   </Router>
+//   , document.getElementById('root'))
 reportWebVitals();

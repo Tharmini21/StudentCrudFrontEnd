@@ -6,18 +6,24 @@ import { Container, Col, Form, Row, FormGroup, Label, Input, Button } from 'reac
 import ReactDOM from 'react-dom/client';
 import Studentlist from './Studentlist';
 // import { hashHistory as history } from "react-router";
-// import { withRouter } from 'react-router-dom';
-// import {  Navigate} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+// import {  Redirect} from 'react-router-dom';
 //import { useHistory } from "react-router-dom";
 // import { useNavigate } from 'react-router-dom';
-import { createBrowserHistory as history } from 'history';
+// import { createBrowserHistory as history } from 'history';
+import history from '../history';
+import { useNavigate } from 'react-router-dom';
 class Addstudent extends React.Component {
 
   constructor(props) {
+    console.log(props)
     super(props)
-    // this.props=props;
+    this.props = props;
     // let navigate = useNavigate();
-    //const { match, location, history } = this.props;
+    const { match, location, history } = this.props;
+    console.log(history);
+    console.log(location);
+
     // let history = useHistory();
     this.state = {
       formErrors: { Email: '', StudentName: '', Phone: '', Grade: '' },
@@ -82,15 +88,6 @@ class Addstudent extends React.Component {
   }
   Addstudent = () => {
 
-    var bodyFormData = new FormData();
-    bodyFormData.append('StudentName', this.state.StudentName);
-    bodyFormData.append('Grade', this.state.Grade);
-    bodyFormData.append('Address', this.state.Address);
-    bodyFormData.append('City', this.state.City);
-    bodyFormData.append('Country', this.state.Country);
-    bodyFormData.append('Postal', this.state.Postal);
-    bodyFormData.append('Phone', this.state.Phone);
-    bodyFormData.append('Email', this.state.Email);
     var body = {
       StudentName: this.state.StudentName,
       Grade: this.state.Grade,
@@ -111,16 +108,10 @@ class Addstudent extends React.Component {
       Phone: this.state.Phone,
       Email: this.state.Email
     })
-      // axios({
-      //   url: "https://localhost:44398/Api/Student/AddorUpdatestudent/",
-      //   method: "post",
-      //   contentType: "application/json",
-      //   data: JSON.stringify(body)
-      // })
       .then(json => {
         if (json.data) {
           console.log(json.data);
-          //alert(json.data); 
+          alert(json.data); 
           // navigate("/studentlist");
           // <Navigate replace to="/edit/2091199611725700" />
           //   <Router>
@@ -131,8 +122,12 @@ class Addstudent extends React.Component {
           // <Redirect to="/studentlist" />
           //this.render('/Studentlist')
           //ReactDOM.render(Studentlist, document.getElementById('list'));
-          //history.push('/Studentlist');
-          this.props.history.push('/Studentlist');
+          // <Redirect to="/Studentlist" />
+          // history.push('/Studentlist');
+          // this.props.history.push({pathname: '/Studentlist',state: body})
+          const root = ReactDOM.createRoot(document.getElementById('root'));
+          root.render(<Studentlist />);
+          // this.props.history.push('/Studentlist');
           // const root = ReactDOM.createRoot(document.getElementById('list'));
           // root.render(
           //   <React.StrictMode>
