@@ -59,8 +59,8 @@ export default class Studentlist extends Component {
     previousPage(num) {
         if (this.state.page > 1) {
             this.setState({
-               // page: this.state.page - 1,
-               page: num,
+                // page: this.state.page - 1,
+                page: num,
             },
                 // this.fetchUsers(this.state.page))
                 this.fetchUsers(num))
@@ -147,12 +147,13 @@ export default class Studentlist extends Component {
                             {this.tableRows()}
                         </tbody>
                         <tfoot>
+
                         </tfoot>
                     </table>
                 </div>
                 <div>
                     <button onClick={() => this.previousPage(this.state.page - 1)} disabled={this.state.page === 1}>Previous Page</button>
-                    <button onClick={() => this.nextPage(this.state.page + 1)} disabled={this.state.page === Math.ceil(this.state.TotalCount / this.state.limit)}></button>
+                    <button onClick={() => this.nextPage(this.state.page + 1)} disabled={this.state.page === Math.ceil(this.state.TotalCount / this.state.limit)}>Next Page</button>
                 </div>
             </div>
             );

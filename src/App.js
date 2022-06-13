@@ -6,6 +6,7 @@ import Editstudent from './Student/Editstudent';
 import Addstudentdata from './Addstudentdata'; 
 import Editstudentdata from './Editstudentdata'; 
 import LoadingSpinner from "./LoadingSpinner";
+
 import { BrowserRouter as Router, Route, Link,Routes,useNavigate } from 'react-router-dom';
 // import {  createBrowserHistory as history } from 'history';
 // import { withRouter } from "react-router";
@@ -38,8 +39,9 @@ function App() {
           <Route exact path="/Studentlist" element={<Studentlist/>}/>
           <Route exact path="/Addstudent" element={<Addstudent/>}/>
           {/* <Route exact path="/Addstudent" component={withRouter(Addstudent)}/> */}
-          <Route exact path='/edit/:id' element={<Editstudent/>} />  
+          {/* <Route exact path='/edit/:id' element={<Editstudent/>} />   */}
           <Route exact path="/Addstudentdata" element={<Addstudentdata/>}/>
+          <Route exact path='/edit/:id' element={<Editstudentdata/>} /> 
         </Routes>
     </Router> 
   );
