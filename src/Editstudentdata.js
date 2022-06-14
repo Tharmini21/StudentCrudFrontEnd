@@ -39,19 +39,19 @@ export default function Edit() {
         const windowUrl = window.location.href;
         const answer_array = windowUrl.split('/');
         let rowid = answer_array[4];
-        setLoading(true)
+        setLoading(true);
         axios.get(`https://localhost:44398/Api/Student/StudentdetailByrowId/${rowid}`)
             .then(response => {
                
-                    setStudentName(response.data.cells[0].value)
-                    setGrade(response.data.cells[1].value)
-                    setCity(response.data.cells[2].value)
-                    setAddress(response.data.cells[3].value)
-                    setCountry(response.data.cells[4].value)
-                    setPostal(response.data.cells[5].value)
-                    setPhone(response.data.cells[6].value)
-                    setEmail(response.data.cells[7].value)
-                    setRowId(response.data.rowid)
+                    setStudentName(response.data.cells[0].value);
+                    setGrade(response.data.cells[1].value);
+                    setCity(response.data.cells[2].value);
+                    setAddress(response.data.cells[3].value);
+                    setCountry(response.data.cells[4].value);
+                    setPostal(response.data.cells[5].value);
+                    setPhone(response.data.cells[6].value);
+                    setEmail(response.data.cells[7].value);
+                    setRowId(response.data.rowid);
                 // StudentName = response.data.cells[0].value,
                 // Grade = response.data.cells[1].value,
                 // City = response.data.cells[2].value,
@@ -61,7 +61,7 @@ export default function Edit() {
                 // Phone = response.data.cells[6].value,
                 // Email = response.data.cells[7].value,
                 // RowId = response.data.rowid
-                setLoading(false)
+                setLoading(false);
             })
             .catch(function (error) {
                 console.log(error);

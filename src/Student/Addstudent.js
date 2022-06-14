@@ -6,13 +6,13 @@ import { Container, Col, Form, Row, FormGroup, Label, Input, Button } from 'reac
 import ReactDOM from 'react-dom/client';
 import Studentlist from './Studentlist';
 // import { hashHistory as history } from "react-router";
-import { withRouter } from 'react-router-dom';
 // import {  Redirect} from 'react-router-dom';
 //import { useHistory } from "react-router-dom";
 // import { useNavigate } from 'react-router-dom';
 // import { createBrowserHistory as history } from 'history';
 import history from '../history';
 import { useNavigate } from 'react-router-dom';
+import { withRouter } from './withRouter';
 class Addstudent extends React.Component {
 
   constructor(props) {
@@ -53,20 +53,20 @@ class Addstudent extends React.Component {
 
     switch (fieldName) {
       case 'StudentName':
-        studentNameValid = value != '';
-        fieldValidationErrors.StudentName = studentNameValid ? '' : ' is not to be empty';
+        studentNameValid = value != null && value != '';
+        fieldValidationErrors.StudentName = studentNameValid ? '' : 'name is not to be empty';
         break;
       case 'Email':
         emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
-        fieldValidationErrors.Email = emailValid ? '' : ' is invalid';
+        fieldValidationErrors.Email = emailValid ? '' : 'email is invalid format';
         break;
       case 'Phone':
         phoneValid = value.length <= 15;
-        fieldValidationErrors.Phone = phoneValid ? '' : ' is too short';
+        fieldValidationErrors.Phone = phoneValid ? '' : 'phone number is too big';
         break;
       case 'Grade':
-        gradeValid = value.length <= 2;
-        fieldValidationErrors.Grade = gradeValid ? '' : ' is too big';
+        gradeValid = value.length <= 2 && value<=12;
+        fieldValidationErrors.Grade = gradeValid ? '' : 'grade is too big';
         break;
       default:
         break;
@@ -87,17 +87,6 @@ class Addstudent extends React.Component {
     return (error.length === 0 ? '' : 'has-error');
   }
   Addstudent = () => {
-
-    var body = {
-      StudentName: this.state.StudentName,
-      Grade: this.state.Grade,
-      Address: this.state.Address,
-      City: this.state.City,
-      Country: this.state.Country,
-      Postal: this.state.Postal,
-      Phone: this.state.Phone,
-      Email: this.state.Email
-    }
     axios.post('https://localhost:44398/Api/Student/Addstudent', {
       StudentName: this.state.StudentName,
       Grade: this.state.Grade,
@@ -110,30 +99,9 @@ class Addstudent extends React.Component {
     })
       .then(json => {
         if (json.data) {
-          console.log(json.data);
           alert(json.data); 
-          // navigate("/studentlist");
-          // <Navigate replace to="/edit/2091199611725700" />
-          //   <Router>
-          //   <Routes>
-          //     <Route path="/" element={<Navigate replace to="/home" />} />
-          //   </Routes>
-          // </Router>
-          // <Redirect to="/studentlist" />
-          //this.render('/Studentlist')
-          //ReactDOM.render(Studentlist, document.getElementById('list'));
-          // <Redirect to="/Studentlist" />
-          // history.push('/Studentlist');
-          // this.props.history.push({pathname: '/Studentlist',state: body})
-          const root = ReactDOM.createRoot(document.getElementById('root'));
-          root.render(<Studentlist />);
-          // this.props.history.push('/Studentlist');
-          // const root = ReactDOM.createRoot(document.getElementById('list'));
-          // root.render(
-          //   <React.StrictMode>
-          //     < Studentlist/>
-          //   </React.StrictMode>
-          // );
+          this.props.navigate('/Studentlist')
+         //this.props.history.push('/Studentlist')  
         }
         else {
           alert('Data not Saved');
@@ -161,12 +129,14 @@ class Addstudent extends React.Component {
               <Label for="name" sm={2}>Student Name *</Label>
               <Col sm={10}>
                 <Input type="text" name="StudentName" required onChange={this.handleChange} value={this.state.StudentName} placeholder="Enter Name" />
+                <span hidden={this.state.formValid} style={{ color: "red" }}>{this.state.formErrors["StudentName"]}</span>
               </Col>
             </FormGroup>
             <FormGroup row>
               <Label for="grade" sm={2}>Grade *</Label>
               <Col sm={10}>
                 <Input type="number" name="Grade" required onChange={this.handleChange} value={this.state.Grade} placeholder="Enter Grade 1 to 12" />
+                <span hidden={this.state.formValid} style={{ color: "red" }}>{this.state.formErrors["Grade"]}</span>
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -197,12 +167,14 @@ class Addstudent extends React.Component {
               <Label for="Password" sm={2}>Phone *</Label>
               <Col sm={10}>
                 <Input type="text" minLength={15} name="Phone" required onChange={this.handleChange} value={this.state.Phone} placeholder="Enter Phone" />
+                <span hidden={this.state.formValid} style={{ color: "red" }}>{this.state.formErrors["Phone"]}</span>
               </Col>
             </FormGroup>
             <FormGroup row>
               <Label for="Password" sm={2}>Email *</Label>
               <Col sm={10}>
                 <Input type="email" name="Email" required onChange={this.handleChange} value={this.state.Email} placeholder="Enter Email" />
+                <span hidden={this.state.formValid} style={{ color: "red" }}>{this.state.formErrors["Email"]}</span>
               </Col>
             </FormGroup>
           </Col>
@@ -232,4 +204,4 @@ class Addstudent extends React.Component {
 }
 
 
-export default Addstudent;
+export default withRouter(Addstudent);

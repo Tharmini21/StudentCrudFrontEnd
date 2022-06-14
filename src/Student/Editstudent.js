@@ -3,6 +3,8 @@ import { Container, Col, Form, Row, FormGroup, Label, Input, Button } from 'reac
 import axios from 'axios'
 import '../Student/Addstudent.css'
 import { useParams } from 'react-router-dom';
+import { Navigate } from "react-router-dom"
+import { withRouter } from './withRouter';
 import Spinner from 'react-bootstrap/Spinner'
 class Edit extends React.Component {
 
@@ -16,10 +18,11 @@ class Edit extends React.Component {
         Country: '',
         Postal: '',
         Phone: '',
-        Email: ''
+        Email: '',
+        redirect:false
     }
-    constructor(props) {
-        super(props)
+    constructor() {
+        super()
 
         this.onChangeStudentName = this.onChangeStudentName.bind(this);
         this.onChangeGrade = this.onChangeGrade.bind(this);
@@ -102,22 +105,10 @@ class Edit extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
-        console.log(this.state);
         const windowUrl = window.location.href;
         const answer_array = windowUrl.split('/');
         let rowid = answer_array[4];
         this.state.RowId = rowid;
-        const student = {
-            RowId: rowid,
-            StudentName: this.state.StudentName,
-            Grade: this.state.Grade,
-            Address: this.state.Address,
-            City: this.state.City,
-            Country: this.state.Country,
-            Postal: this.state.Postal,
-            Phone: this.state.Phone,
-            Email: this.state.Email
-        }
         axios.post('https://localhost:44398/Api/Student/Updatestudent', {
             RowId: rowid,
             StudentName: this.state.StudentName,
@@ -128,45 +119,17 @@ class Edit extends React.Component {
             Postal: this.state.Postal,
             Phone: this.state.Phone,
             Email: this.state.Email
-        })
-            .then(res => {
+        }).then(res => {
                 if (res.data) {
                     console.log(res.data);
                     alert(res.data);
-                    //this.props.history.push('/Studentlist')  
+                    this.props.navigate('/Studentlist')
                 }
                 else {
                     alert('Data not Updated');
-                    //this.props.history.push('/Studentlist')  
+                    this.props.navigate('/Studentlist')
                 }
             });
-
-        // const requestOptions = {
-        //     method: 'PUT',
-        //     headers: { 
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: student
-        // };
-        // fetch('https://localhost:44398/Api/Student/AddorUpdatestudent/', requestOptions)
-        //     .then(response => {
-        //         response.json()
-        //         console.log(response.data)
-        //     })
-        //     .catch(error => {
-        //         console.log('There was an error!', error);
-        //     });
-        // axios.post('https://localhost:44398/Api/Student/AddorUpdatestudent/', this.state)
-        //     .then(res => console.log(res.data));
-        //             axios.put(`https://localhost:44398/Api/Student/AddorUpdatestudent/${rowid}`, student)
-        //             //{headers: { 'Content-Type': 'application/json' }})
-        // .then(response => { 
-        // 	console.log(response.data)
-        // })
-        // .catch(error => {
-        //     console.log(error.response)
-        // });
-
     }
     render() {
         const { isLoaded, business } = this.state;
@@ -256,4 +219,4 @@ class Edit extends React.Component {
 
 }
 
-export default Edit;
+export default withRouter(Edit);
