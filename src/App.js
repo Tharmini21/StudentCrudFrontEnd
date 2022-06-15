@@ -6,27 +6,29 @@ import Editstudent from './Student/Editstudent';
 import Addstudentdata from './Addstudentdata';
 import Editstudentdata from './Editstudentdata';
 import LoadingSpinner from "./LoadingSpinner";
+// import SideNav from './Student/SideNav';
 
 import { BrowserRouter as Router, Route, Link, Routes, useNavigate } from 'react-router-dom';
 // import {  createBrowserHistory as history } from 'history';
 // import { withRouter } from "react-router";
 import history from './history'
 function App() {
-  function openNav() {
-    document.getElementById("mySidenav").style.width = "250px";
-  }
+  // function openNav() {
+  //   document.getElementById("mySidenav").style.width = "250px";
+  // }
   
-  function closeNav() {
+  const closeNav=()=> {
     document.getElementById("mySidenav").style.width = "0";
   }
   return (
 
     <Router history={history}>
       <div id="mySidenav" class="sidenav">
-        <a href="" class="closebtn" onClick="closeNav()">&times;</a>
+        <a href="" class="closebtn" onClick={closeNav}>&times;</a>
         <a href="/Addstudent">Addstudent</a>
         <a href="/Studentlist">Student List</a>
       </div>
+      {/* <SideNav style={{width:'25%'}}/> */}
       <div className="container">
         <nav className="navbar navbar-expand-lg navheader">
           <div className="collapse navbar-collapse" >

@@ -5,6 +5,7 @@ import Table from 'react-bootstrap/Table';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
 import Spinner from 'react-bootstrap/Spinner'
+import '../App.css';
 export default class Studentlist extends Component {
 
     constructor(props) {
@@ -126,7 +127,7 @@ export default class Studentlist extends Component {
                 Loading...
             </div>;
         } else {
-            return (<div id="list">
+            return (<div id="list" >
                 <div>
                     <h4 align="center">Student List</h4>
                     <table className="table table-striped" style={{ marginTop: 10 }}>
