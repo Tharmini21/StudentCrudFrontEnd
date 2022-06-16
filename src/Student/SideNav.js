@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 // import '../App.css';
 import styled from "styled-components";
 import { IconName } from "react-icons/bi";
 import * as AiIcons from "react-icons/ai";
 import * as FaIcons from "react-icons/fa";
+import * as CaIcons from "react-icons/cg";
 import { IconContext } from "react-icons/lib";
 import { sideMenu } from '../Sidebarmenu';
 const Nav = styled.div`
@@ -51,10 +53,12 @@ const SideNav = (props) => {
                         <SidebarWrap>
                             <AiIcons.AiOutlineClose onClick={showSidebar} />
                             {/* <a href="" class="closebtn" onClick={closeNav}>&times;</a> */}
+                            {/* <Link to="/Addstudent"><CaIcons.CgUserList></CaIcons.CgUserList>Add Student</Link>
+                            <Link to="/Studentlist"><AiIcons.AiOutlineUserAdd></AiIcons.AiOutlineUserAdd>Student List</Link> */}
                             <div>
-                                <a href="/Addstudent">Addstudent</a>
+                                <a href="/Addstudent"><CaIcons.CgUserList></CaIcons.CgUserList>Addstudent</a>
                             </div>
-                            <p><a href="/Studentlist">Student List</a></p>
+                            <p><a href="/Studentlist"><AiIcons.AiOutlineUserAdd></AiIcons.AiOutlineUserAdd>Student List</a></p>
                             {/* {sideMenu.map((item, index) => {
                                 return <NavItem key={index} item={item} />;
                             })} */}

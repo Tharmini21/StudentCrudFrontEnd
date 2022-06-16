@@ -122,7 +122,7 @@ export default class Studentlist extends Component {
     render() {
         const { isLoaded, business, totalPages } = this.state;
         if (!isLoaded) {
-            return <div>
+            return <div style={{ position: 'fixed', top: '50%', left: '50%' }}>
                 <Spinner animation="border" role="status">
                     <span className="visually-hidden">Loading...</span>
                 </Spinner>
