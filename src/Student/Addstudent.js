@@ -100,16 +100,18 @@ class Addstudent extends React.Component {
       .then(json => {
         if (json.data) {
           alert(json.data); 
-          this.props.navigate('/Studentlist')
-         //this.props.history.push('/Studentlist')  
+          this.props.navigate('/Studentlist');
         }
         else {
           alert('Data not Saved');
+          this.props.navigate('/Studentlist');
           //this.props.history.push('/Studentlist')  
         }
       })
   }
-
+  Cancel=()=>{
+    this.props.navigate('/Studentlist');
+  }
   handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -189,7 +191,7 @@ class Addstudent extends React.Component {
                 <button type="button" onClick={this.Addstudent} disabled={!this.state.formValid} className="btn btn-success">Submit</button>
               </Col>
               <Col sm={1}>
-                <Button color="danger">Cancel</Button>{' '}
+                <Button color="danger" onClick={this.Cancel} >Cancel</Button>{' '}
               </Col>
               <Col sm={9}>
               </Col>

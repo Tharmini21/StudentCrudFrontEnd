@@ -6,6 +6,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
 import Spinner from 'react-bootstrap/Spinner'
 import '../App.css';
+import * as AiIcons from "react-icons/ai";
+import * as FaIcons from "react-icons/fa";
 export default class Studentlist extends Component {
 
     constructor(props) {
@@ -106,10 +108,10 @@ export default class Studentlist extends Component {
                         <td>{element.phone}</td>
                         <td>{element.email}</td>
                         <td>
-                            <Link to={"/edit/" + element.rowId} className="btn btn-success">Edit</Link>
+                            <Link to={"/edit/" + element.rowId} className="btn btn-success"><FaIcons.FaUserEdit></FaIcons.FaUserEdit></Link>
                         </td>
                         <td>
-                            <button type="button" onClick={() => this.DeleteStudent(element.rowId)} className="btn btn-danger">Delete</button>
+                            <button type="button" onClick={() => this.DeleteStudent(element.rowId)} className="btn btn-danger"><AiIcons.AiFillDelete></AiIcons.AiFillDelete></button>
                         </td>
                     </tr>
 
@@ -127,7 +129,7 @@ export default class Studentlist extends Component {
                 Loading...
             </div>;
         } else {
-            return (<div id="list" >
+            return (<div className="list" >
                 <div>
                     <h4 align="center">Student List</h4>
                     <table className="table table-striped" style={{ marginTop: 10 }}>

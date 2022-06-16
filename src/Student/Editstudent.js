@@ -131,6 +131,9 @@ class Edit extends React.Component {
                 }
             });
     }
+    Cancel=()=>{
+        this.props.navigate('/Studentlist');
+      }
     render() {
         const { isLoaded, business } = this.state;
         if (!isLoaded) {
@@ -205,7 +208,7 @@ class Edit extends React.Component {
                                     <Button type="submit" color="success">Submit</Button>{' '}
                                 </Col>
                                 <Col sm={1}>
-                                    <Button color="danger">Cancel</Button>{' '}
+                                    <Button color="danger" onClick={this.Cancel}>Cancel</Button>{' '}
                                 </Col>
                                 <Col sm={9}>
                                 </Col>
