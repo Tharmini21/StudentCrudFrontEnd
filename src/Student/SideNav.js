@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 // import '../App.css';
 import styled from "styled-components";
 import { IconName } from "react-icons/bi";
@@ -53,12 +53,15 @@ const SideNav = (props) => {
                         <SidebarWrap>
                             <AiIcons.AiOutlineClose onClick={showSidebar} />
                             {/* <a href="" class="closebtn" onClick={closeNav}>&times;</a> */}
-                            {/* <Link to="/Addstudent"><CaIcons.CgUserList></CaIcons.CgUserList>Add Student</Link>
-                            <Link to="/Studentlist"><AiIcons.AiOutlineUserAdd></AiIcons.AiOutlineUserAdd>Student List</Link> */}
-                            <div>
-                                <a href="/Addstudent"><CaIcons.CgUserList></CaIcons.CgUserList>Addstudent</a>
+                            {/* <Link to="/Addstudent">Add Student</Link>
+                            <Link to="/Studentlist">Student List</Link> */}
+                            {/* <NavLink exact to='/Studentlist'><AiIcons.AiOutlineUserAdd></AiIcons.AiOutlineUserAdd><span>Student List</span>
+                            </NavLink> */}
+                            <div class="navbar">
+                                <a href="/Addstudent"><AiIcons.AiOutlineUserAdd></AiIcons.AiOutlineUserAdd>  Addstudent</a>
+                                <p><a href="/Studentlist" onClick={showSidebar}><CaIcons.CgUserList></CaIcons.CgUserList>  Student List</a></p>
+
                             </div>
-                            <p><a href="/Studentlist"><AiIcons.AiOutlineUserAdd></AiIcons.AiOutlineUserAdd>Student List</a></p>
                             {/* {sideMenu.map((item, index) => {
                                 return <NavItem key={index} item={item} />;
                             })} */}

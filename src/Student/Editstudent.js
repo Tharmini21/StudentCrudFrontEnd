@@ -137,7 +137,7 @@ class Edit extends React.Component {
     render() {
         const { isLoaded, business } = this.state;
         if (!isLoaded) {
-            return <div>
+            return <div style={{ position: 'fixed', top: '50%', left: '50%' }}>
                 <Spinner animation="border" role="status">
                     <span className="visually-hidden">Loading...</span>
                 </Spinner>
