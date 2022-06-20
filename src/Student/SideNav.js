@@ -43,12 +43,6 @@ const SideNav = (props) => {
             <IconContext.Provider value={{ color: "#fff" }}>
                 <Nav>
                     <FaIcons.FaBars onClick={showSidebar} />
-                    {/* <div style={{ width: '25%', paddingTop: '20px' }} id="mySidenav" className="sidenav"> */}
-                    {/* <div id="mySidenav" className="sidenav">
-                <a href="" class="closebtn" onClick={closeNav}>&times;</a>
-                <a href="/Addstudent">Addstudent</a>
-                <p><a href="/Studentlist">Student List</a></p>
-            </div> */}
                     <SidebarNav sidebar={sidebar}>
                         <SidebarWrap>
                             <AiIcons.AiOutlineClose onClick={showSidebar} />
@@ -60,7 +54,6 @@ const SideNav = (props) => {
                             <div class="navbar">
                                 <a href="/Addstudent"><AiIcons.AiOutlineUserAdd></AiIcons.AiOutlineUserAdd>  Addstudent</a>
                                 <p><a href="/Studentlist" onClick={showSidebar}><CaIcons.CgUserList></CaIcons.CgUserList>  Student List</a></p>
-
                             </div>
                             {/* {sideMenu.map((item, index) => {
                                 return <NavItem key={index} item={item} />;
