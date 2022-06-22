@@ -154,7 +154,7 @@ export default class Studentlist extends Component {
                         </tfoot>
                     </table>
                 </div>
-                <div className="pagination">
+                <div className="pagination" style={{ float:'right', marginRight:'20px' }}>
                     <button onClick={() => this.previousPage(this.state.page - 1)} disabled={this.state.page === 1}>Previous Page</button>
                     <button onClick={() => this.nextPage(this.state.page + 1)} disabled={this.state.page === Math.ceil(this.state.TotalCount / this.state.limit)}>Next Page</button>
                 </div>
